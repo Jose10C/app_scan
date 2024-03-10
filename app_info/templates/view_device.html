@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispositivos en la Red</title>
+</head>
+<body>
+    <h1>Dispositivos en la Red</h1>
+    <table border="1">
+        <tr>
+            <th>IP</th>
+            <th>MAC</th>
+        </tr>
+        {% for dispositivo in dispositivos %}
+        <tr>
+            <td>{{ dispositivo.ip }}</td>
+            <td>{{ dispositivo.mac }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

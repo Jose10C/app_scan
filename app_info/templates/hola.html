@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escanear Red</title>
+</head>
+<body>
+    <div id="status-message">Pulsa el botón para iniciar el escaneo...</div>
+    <div id="ips-container"></div>
+    <button onclick="escanearRed()">Escanear de nuevo</button> <!-- Botón para escanear de nuevo -->
+
+    <script>
+        function escanearRed() {
+            var statusMessage = document.getElementById('status-message');
+            var ipsContainer = document.getElementById('ips-container');
+            ipsContainer.innerHTML = ''; // Limpiar las IPs anteriores
+            statusMessage.textContent = 'Escaneando...'; // Mostrar el mensaje "Escaneando..."
+            var tiempoInicio = new Date().getTime(); // Obtener el tiempo de inicio de la búsqueda
+            
+            // Realizar la solicitud AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/escanear_red/', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var ips = response.ips;
+
+                    // Función para mostrar IPs una por una con el tiempo transcurrido
+                    function mostrarIP(index) {
+                        if (index < ips.length) {
+                            var p = document.createElement('p');
+                            var tiempoActual = new Date().getTime(); // Obtener el tiempo actual
+                            var tiempoTranscurrido = (tiempoActual - tiempoInicio) / 1000; // Calcular tiempo transcurrido en segundos
+                            p.textContent = ips[index] + ' (Tiempo: ' + tiempoTranscurrido.toFixed(2) + ' segundos)';
+                            ipsContainer.appendChild(p);
+                        }
+                        if (index < ips.length - 1) {
+                            setTimeout(function() {
+                                mostrarIP(index + 1);
+                            }, Math.random() * (2000 - 500) + 500); // Tiempo aleatorio entre 0.5 y 2 segundos
+                        } else {
+                            // Cambiar el mensaje de estado una vez que se han mostrado todas las IPs
+                            statusMessage.textContent = 'Escaneo finalizado';
+                        }
+                    }
+
+                    // Iniciar el proceso mostrando la primera IP
+                    mostrarIP(0);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

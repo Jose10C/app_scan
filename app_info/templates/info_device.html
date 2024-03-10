@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Equipo</title>
+</head>
+<body>
+    <h1>Información del Equipo</h1>
+    <ul>
+        <li><strong>Sistema Operativo:</strong> {{ ip_info.sistema_operativo }}</li>
+        <li><strong>Modelo:</strong> {{ ip_info.modelo }}</li>
+        <li><strong>Arquitectura:</strong> {{ ip_info.arquitectura }}</li>
+        <li><strong>Usuario:</strong> {{ ip_info.usuario }}</li>
+        <li><strong>Número de Núcleos:</strong> {{ ip_info.nucleos }}</li>
+        <li><strong>Velocidad del Procesador:</strong> {{ ip_info.velocidad_procesador }}</li>
+    </ul>
+
+    <h2>Información de Almacenamiento</h2>
+    <ul>
+        {% for particion, info in ip_info.almacenamiento.items %}
+            <li><strong>{{ particion }}</strong> - Total: {{ info.total }} GB, Disponible: {{ info.disponible }} GB, Ocupado: {{ info.ocupado }} GB</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Información de Memoria RAM</h2>
+    <ul>
+        <li><strong>Total:</strong> {{ ip_info.memoria_ram.total }} GB</li>
+        <li><strong>Disponible:</strong> {{ ip_info.memoria_ram.disponible }} GB</li>
+        <li><strong>Usada:</strong> {{ ip_info.memoria_ram.usada }} GB</li>
+    </ul>
+
+    <h2>Información de Red</h2>
+    <ul>
+        {% for interface, info in ip_info.red.items %}
+            <li><strong>Interfaz:</strong> {{ interface }}</li>
+            <ul>
+                <li><strong>IP:</strong> {{ info.ip }}</li>
+                <li><strong>Máscara de Subred:</strong> {{ info.mascara }}</li>
+                <li><strong>Puerta de Enlace:</strong> {{ info.puerta_enlace }}</li>
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

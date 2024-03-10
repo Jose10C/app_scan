@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de IPs</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Estado de IPs</h1>
+    <ul id="ips-list">
+        <!-- Las IPs se mostrarán aquí -->
+    </ul>
+    <script>
+        function actualizarEstadoIPs() {
+            $.ajax({
+                url: '/estado_ips/',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#ips-list').empty();
+                    $.each(data, function(ip, estado) {
+                        $('#ips-list').append('<li>' + ip + ': ' + estado + '</li>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // Actualizar el estado de las IPs cada segundo
+        setInterval(actualizarEstadoIPs, 1000);
+        actualizarEstadoIPs(); // Actualizar el estado de las IPs inicialmente
+    </script>
+</body>
+</html>
